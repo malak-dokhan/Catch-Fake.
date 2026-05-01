@@ -1267,8 +1267,8 @@ color:#ccc;
 
   .nav-links{
     position: fixed;
-    top: 0;
-    right: 0;
+    top: 70px;
+    right: 10px;
     width: 100%;
     height: auto;
     background: rgba(20, 0, 50, 0.95);
