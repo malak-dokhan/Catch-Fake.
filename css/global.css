@@ -367,5 +367,26 @@ opacity:0.7;
 .menu-user .logout-btn {
   width: 100%;
   text-align: center;
+.nav-links .logout-btn {
+  display: none;
+}
+
+
+@media (max-width:768px){
+
+  .nav-right {
+    display: none; 
+  }
+
+  .nav-links .logout-btn {
+    display: flex; 
+    justify-content: center;
+    width: 100%;
+  }
+
+}
+
+
+  
 }
 
