@@ -54,7 +54,10 @@ document.getElementById("welcomeText").textContent =
       navLinks.classList.remove("active");
       overlay.classList.remove("active");
     });
-
+})();
+function goToUpload() {
+  window.location.href = "Upload.html";
+}
   }
 
 })();
