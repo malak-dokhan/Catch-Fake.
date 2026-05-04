@@ -193,44 +193,77 @@ style: {
 }
 
 // LOGOUT 
+
 function logout() {
   localStorage.removeItem("isLoggedIn");
-  window.location.href = "login.html";
+  localStorage.removeItem("user");
+  window.location.href = "index.html"; 
 }
 
-//  NAVBAR 
-const isLoggedIn = localStorage.getItem("isLoggedIn");
+function updateNavbar() {
+  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
 
-const loginLink = document.getElementById("loginLink");
-const signupLink = document.getElementById("signupLink");
+  const loginLink =
+    document.getElementById("loginLink") ||
+    document.querySelector(".login-btn");
 
-if (isLoggedIn) {
-  if (loginLink) loginLink.style.display = "none";
-  if (signupLink) signupLink.style.display = "none";
-}
+  const signupLink =
+    document.getElementById("signupLink") ||
+    document.querySelector(".signup-btn");
 
+  const logoutLink = document.getElementById("logoutLink");
 
-//  USER 
-const user = JSON.parse(localStorage.getItem("user"));
-
-const userName = document.getElementById("userName");
-const userImg = document.querySelector(".user-img");
-if (user) {
-  if (userName) {
-    userName.textContent = user.name;
+  if (isLoggedIn) {
+    if (loginLink) loginLink.style.display = "none";
+    if (signupLink) signupLink.style.display = "none";
+    if (logoutLink) logoutLink.style.display = "inline-block";
+  } else {
+    if (loginLink) loginLink.style.display = "inline-block";
+    if (signupLink) signupLink.style.display = "inline-block";
+    if (logoutLink) logoutLink.style.display = "none";
   }
-  if (userImg) {
-    userImg.src = `https://ui-avatars.com/api/?name=${user.name}&background=00cfff&color=fff`;
+}
+
+function updateUserUI() {
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  const userName = document.getElementById("userName");
+  const userImg = document.querySelector(".user-img");
+
+  if (user) {
+    if (userName) userName.textContent = user.name;
+    if (userImg) {
+      userImg.src = `https://ui-avatars.com/api/?name=${user.name}&background=00cfff&color=fff`;
+    }
   }
 }
+
+
+function protectPage() {
+  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+  if (!isLoggedIn) {
+    window.location.href = "login.html";
+  }
+}
+
 
 function goToDashboard() {
-  const isLoggedIn = localStorage.getItem("isLoggedIn");
-
+  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
   if (!isLoggedIn) {
-showToast("Access denied — please login first ", "error");
+    showToast("Please login first", "error");
     return;
   }
-  window.location.href = "dashboard.html";
+  const path = window.location.pathname;
+
+  if (path.includes("index.html") || path === "/") {
+   window.location.href = "pages/dashboard.html";
+  } else {
+    
+    window.location.href = "dashboard.html";
+  }
 }
 
+document.addEventListener("DOMContentLoaded", () => {
+  updateNavbar();
+  updateUserUI();
+});
